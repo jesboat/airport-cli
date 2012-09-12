@@ -1,0 +1,243 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC5AA6F316001D24000AC50C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5AA6F216001D24000AC50C /* Foundation.framework */; };
+		FC5AA6F616001D24000AC50C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5AA6F516001D24000AC50C /* main.m */; };
+		FC5AA6FA16001D24000AC50C /* airport_cli.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC5AA6F916001D24000AC50C /* airport_cli.1 */; };
+		FC5AA70516002119000AC50C /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5AA70416002119000AC50C /* CoreWLAN.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FC5AA6EC16001D24000AC50C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				FC5AA6FA16001D24000AC50C /* airport_cli.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FC5AA6EE16001D24000AC50C /* airport-cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "airport-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC5AA6F216001D24000AC50C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FC5AA6F516001D24000AC50C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FC5AA6F816001D24000AC50C /* airport-cli-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "airport-cli-Prefix.pch"; sourceTree = "<group>"; };
+		FC5AA6F916001D24000AC50C /* airport_cli.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = airport_cli.1; sourceTree = "<group>"; };
+		FC5AA70416002119000AC50C /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC5AA6EB16001D24000AC50C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5AA70516002119000AC50C /* CoreWLAN.framework in Frameworks */,
+				FC5AA6F316001D24000AC50C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FC5AA6E316001D24000AC50C = {
+			isa = PBXGroup;
+			children = (
+				FC5AA6F416001D24000AC50C /* airport-cli */,
+				FC5AA6F116001D24000AC50C /* Frameworks */,
+				FC5AA6EF16001D24000AC50C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC5AA6EF16001D24000AC50C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC5AA6EE16001D24000AC50C /* airport-cli */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC5AA6F116001D24000AC50C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC5AA70416002119000AC50C /* CoreWLAN.framework */,
+				FC5AA6F216001D24000AC50C /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC5AA6F416001D24000AC50C /* airport-cli */ = {
+			isa = PBXGroup;
+			children = (
+				FC5AA6F516001D24000AC50C /* main.m */,
+				FC5AA6F916001D24000AC50C /* airport_cli.1 */,
+				FC5AA6F716001D24000AC50C /* Supporting Files */,
+			);
+			path = "airport-cli";
+			sourceTree = "<group>";
+		};
+		FC5AA6F716001D24000AC50C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC5AA6F816001D24000AC50C /* airport-cli-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC5AA6ED16001D24000AC50C /* airport-cli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC5AA6FD16001D24000AC50C /* Build configuration list for PBXNativeTarget "airport-cli" */;
+			buildPhases = (
+				FC5AA6EA16001D24000AC50C /* Sources */,
+				FC5AA6EB16001D24000AC50C /* Frameworks */,
+				FC5AA6EC16001D24000AC50C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "airport-cli";
+			productName = "airport-cli";
+			productReference = FC5AA6EE16001D24000AC50C /* airport-cli */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC5AA6E516001D24000AC50C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Jonathan Sailor";
+			};
+			buildConfigurationList = FC5AA6E816001D24000AC50C /* Build configuration list for PBXProject "airport-cli" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FC5AA6E316001D24000AC50C;
+			productRefGroup = FC5AA6EF16001D24000AC50C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC5AA6ED16001D24000AC50C /* airport-cli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FC5AA6EA16001D24000AC50C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5AA6F616001D24000AC50C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FC5AA6FB16001D24000AC50C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FC5AA6FC16001D24000AC50C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FC5AA6FE16001D24000AC50C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "airport-cli/airport-cli-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FC5AA6FF16001D24000AC50C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "airport-cli/airport-cli-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FC5AA6E816001D24000AC50C /* Build configuration list for PBXProject "airport-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5AA6FB16001D24000AC50C /* Debug */,
+				FC5AA6FC16001D24000AC50C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC5AA6FD16001D24000AC50C /* Build configuration list for PBXNativeTarget "airport-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5AA6FE16001D24000AC50C /* Debug */,
+				FC5AA6FF16001D24000AC50C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FC5AA6E516001D24000AC50C /* Project object */;
+}

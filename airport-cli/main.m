@@ -73,7 +73,10 @@ static void dissoc(CWInterface *cwif) {
     // It doesn't give us any way to check for errors :(
 }
 
-static void assoc(CWInterface *cwif, const char *ssidC, const char *passC) {
+static void assoc(CWInterface *cwif,
+                  const char *ssidC, const char *bssidC,
+                  const char *passC)
+{
     NSError *err = nil;
 
     NSString *ssid = [NSString stringWithUTF8String:ssidC];
@@ -85,11 +88,24 @@ static void assoc(CWInterface *cwif, const char *ssidC, const char *passC) {
     if (! nets)
         death("scanForNetworksWithName returned nil but no error");
 
-    nets = CWMergeNetworks(nets); /* pick strongest signal */
+    CWNetwork *net = nil;
 
-    CWNetwork *net = [nets anyObject]; /* nil if nets is empty */
-    if (! net)
-        death("No networks found with that SSID");
+    if (bssidC) {
+        NSString *bssid = [NSString stringWithUTF8String:bssidC];
+        for (CWNetwork *n in nets) {
+            if ([n.bssid isEqualToString:bssid]) {
+                net = n;
+                break;
+            }
+        }
+        if (! net)
+            death("No networks found with that SSID and BSSID");;
+    } else {
+        nets = CWMergeNetworks(nets); /* pick strongest signal */
+        net = [nets anyObject];
+        if (! net)
+            death("No networks found with that SSID");
+    }
 
     BOOL ok = [cwif associateToNetwork:net password:pass error:&err];
 
@@ -102,14 +118,14 @@ static void assoc(CWInterface *cwif, const char *ssidC, const char *passC) {
 static struct {
     int do_list, do_get, do_assoc, do_dissoc;
     const char *ifname;
-    const char *ssid;
+    const char *ssid, *bssid;
     const char *pass;
     const char *progname;
 } glop;
 
 static void usage() {
     fprintf(stderr,
-            "Usage: %s [-lgpad] [-i ifname] [-s ssid] [-p pass]\n"
+            "Usage: %s [-lgnad] [-i ifname] [-s ssid] [-b bssid] [-p pass]\n"
             "Modes:\n"
             "   -l    list interfaces\n"
             "   -g    get/display interface\n"
@@ -117,7 +133,8 @@ static void usage() {
             "   -d    dissociate\n"
             "Options:\n"
             "   -i    interface name; system default if unspecified\n"
-            "   -s    SSID (-a only)\n"
+            "   -s    SSID (-a, -n only)\n"
+            "   -b    BSSID, like 00:00:00:00:00:00 (-a only)\n"
             "   -p    password/key (-a only)\n",
             glop.progname);
     exit(1);
@@ -127,7 +144,7 @@ static void opts(int argc, char *argv[]) {
     extern char *optarg; /* isn't getopt(3) wonderful? */
     char ch;
     glop.progname = argv[0];
-    while ((ch = getopt(argc, argv, "lgadi:s:p:")) != -1) {
+    while ((ch = getopt(argc, argv, "lgnadi:s:b:p:")) != -1) {
         switch (ch) {
             case 'l': glop.do_list=1; break;
             case 'g': glop.do_get=1; break;
@@ -135,6 +152,7 @@ static void opts(int argc, char *argv[]) {
             case 'd': glop.do_dissoc=1; break;
             case 'i': glop.ifname=optarg; break;
             case 's': glop.ssid=optarg; break;
+            case 'b': glop.bssid=optarg; break;
             case 'p': glop.pass=optarg; break;
             default: usage();
         }
@@ -142,13 +160,13 @@ static void opts(int argc, char *argv[]) {
     if (glop.do_list + glop.do_get + glop.do_assoc + glop.do_dissoc != 1)
         usage();
     if (glop.do_list) {
-        if (glop.ifname || glop.ssid || glop.pass)
+        if (glop.ifname || glop.ssid || glop.bssid || glop.pass)
             usage();
     } else if (glop.do_assoc) {
         if (! glop.ssid)
             usage();
     } else {
-        if (glop.ssid || glop.pass)
+        if (glop.ssid || glop.bssid || glop.pass)
             usage();
     }
 }
@@ -161,7 +179,7 @@ static void app() {
         if (glop.do_get)
             showIf(cwif);
         else if (glop.do_assoc)
-            assoc(cwif, glop.ssid, glop.pass);
+            assoc(cwif, glop.ssid, glop.bssid, glop.pass);
         else if (glop.do_dissoc)
             dissoc(cwif);
     }

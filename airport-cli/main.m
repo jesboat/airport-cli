@@ -10,12 +10,10 @@
 
 #import <CoreWLAN/CoreWLAN.h>
 
-/* printf, fprintf */
 #include <stdio.h>
-/* getopt-- it's in unistd, what? */
-#include <unistd.h>
-/* bzero */
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h> /* getopt */
 
 
 static void death(const char *why) {

@@ -73,6 +73,110 @@ static void dissoc(CWInterface *cwif) {
     // It doesn't give us any way to check for errors :(
 }
 
+static const char* band2string(CWChannelBand b) {
+    switch (b) {
+    case kCWChannelBandUnknown:
+        return "unknown";
+    case kCWChannelBand2GHz:
+        return "2GHz";
+    case kCWChannelBand5GHz:
+        return "5GHz";
+    default:
+        return "other";
+    }
+}
+
+/* <overkill> */
+
+struct enum_poll {
+    int v;
+    const char *str;
+};
+
+const static
+struct enum_poll poll_phy_modes[] = {
+    {kCWPHYModeNone, "none"},
+    {kCWPHYMode11a,  "11a"},
+    {kCWPHYMode11b,  "11b"},
+    {kCWPHYMode11g,  "11g"},
+    {kCWPHYMode11n,  "11n"},
+    {0, 0} };
+
+static
+BOOL
+poll_phy_mode(CWNetwork *net, CWPHYMode m)
+{
+    return [net supportsPHYMode:m];
+}
+
+const static
+struct enum_poll poll_security[] = {
+    {kCWSecurityNone,                "none"},
+    {kCWSecurityWEP,                 "wep"},
+    {kCWSecurityWPAPersonal,         "wpa1p"},
+    {kCWSecurityWPAPersonalMixed,    "wpa12p"},
+    {kCWSecurityWPA2Personal,        "wpa2p"},
+    {kCWSecurityPersonal,            "personal"},
+    {kCWSecurityDynamicWEP,          "dynamicwep"},
+    {kCWSecurityWPAEnterprise,       "wpa1e"},
+    {kCWSecurityWPAEnterpriseMixed,  "wpa12e"},
+    {kCWSecurityWPA2Enterprise,      "wpa2e"},
+    {kCWSecurityEnterprise,          "enterprise"},
+    {kCWSecurityUnknown,             "unknown"},
+    {0, 0} };
+
+static
+BOOL
+poll_security_mode(CWNetwork *net, CWSecurity s) {
+    return [net supportsSecurity:s];
+}
+
+static
+const char*
+do_enum_poll(const struct enum_poll *polls, CWNetwork *net,
+             BOOL (*fn)(CWNetwork*, NSInteger))
+{
+    static char buf[256];
+    int isFirst = 1;
+
+    strcpy(buf, "[");
+    for (; polls->str; polls++) {
+        if ((*fn)(net, polls->v)) {
+            if (! isFirst)
+                strcat(buf, ", ");
+            strcat(buf, polls->str);
+            isFirst = 0;
+        }
+    }
+    strcat(buf, "]");
+
+    return buf;
+}
+
+static void scan(CWInterface *cwif, const char *ssidC) {
+    NSError *err = nil;
+
+    NSString *ssid = (ssidC ? [NSString stringWithUTF8String:ssidC] : nil);
+    NSSet/*CWNetwork*/ *nets = [cwif scanForNetworksWithName:ssid error:&err];
+
+    printf("---\n");
+    for (CWNetwork *net in nets) {
+        printf("-\n");
+        printf(" ssid: %s\n", [net.ssid UTF8String]);
+        printf(" bssid: %s\n", [net.bssid UTF8String]);
+        printf(" wlanChannel: {number: %ld, band: %s}\n",
+               (unsigned long)net.wlanChannel.channelNumber,
+               band2string(net.wlanChannel.channelBand));
+        printf(" rssi: %ld\n", (long)net.rssiValue);
+        printf(" noiseMeasurement: %ld\n", (long)net.noiseMeasurement);
+        printf(" countryCode: %s\n", [net.countryCode UTF8String]);
+        printf(" beaconInterval: %lu\n", (unsigned long)net.beaconInterval);
+        printf(" ibss: %d\n", (net.ibss ? 1 : 0));
+        printf(" phys: %s\n", do_enum_poll(poll_phy_modes, net, poll_phy_mode));
+        printf(" security: %s\n", do_enum_poll(poll_security, net, poll_security_mode));
+    }
+}
+
 static void assoc(CWInterface *cwif,
                   const char *ssidC, const char *bssidC,
                   const char *passC)
@@ -116,7 +220,7 @@ static void assoc(CWInterface *cwif,
 }
 
 static struct {
-    int do_list, do_get, do_assoc, do_dissoc;
+    int do_list, do_get, do_assoc, do_dissoc, do_nets;
     const char *ifname;
     const char *ssid, *bssid;
     const char *pass;
@@ -129,6 +233,7 @@ static void usage() {
             "Modes:\n"
             "   -l    list interfaces\n"
             "   -g    get/display interface\n"
+            "   -n    list networks\n"
             "   -a    associate\n"
             "   -d    dissociate\n"
             "Options:\n"
@@ -148,6 +253,7 @@ static void opts(int argc, char *argv[]) {
         switch (ch) {
             case 'l': glop.do_list=1; break;
             case 'g': glop.do_get=1; break;
+            case 'n': glop.do_nets=1; break;
             case 'a': glop.do_assoc=1; break;
             case 'd': glop.do_dissoc=1; break;
             case 'i': glop.ifname=optarg; break;
@@ -157,10 +263,13 @@ static void opts(int argc, char *argv[]) {
             default: usage();
         }
     }
-    if (glop.do_list + glop.do_get + glop.do_assoc + glop.do_dissoc != 1)
+    if (glop.do_list + glop.do_get + glop.do_assoc + glop.do_dissoc + glop.do_nets != 1)
         usage();
     if (glop.do_list) {
         if (glop.ifname || glop.ssid || glop.bssid || glop.pass)
+            usage();
+    } else if (glop.do_nets) {
+        if (glop.bssid || glop.pass)
             usage();
     } else if (glop.do_assoc) {
         if (! glop.ssid)
@@ -178,6 +287,8 @@ static void app() {
         CWInterface *cwif = getIf(glop.ifname);
         if (glop.do_get)
             showIf(cwif);
+        else if (glop.do_nets)
+            scan(cwif, glop.ssid);
         else if (glop.do_assoc)
             assoc(cwif, glop.ssid, glop.bssid, glop.pass);
         else if (glop.do_dissoc)

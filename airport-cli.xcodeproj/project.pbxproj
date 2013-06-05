@@ -48,10 +48,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC15232A175EC5B800D3EED4 /* airport-cli */ = {
+			isa = PBXGroup;
+			children = (
+				FC5AA6F816001D24000AC50C /* airport-cli-Prefix.pch */,
+				FC5AA6F516001D24000AC50C /* main.m */,
+				FC5AA6F916001D24000AC50C /* airport_cli.1 */,
+			);
+			name = "airport-cli";
+			sourceTree = "<group>";
+		};
 		FC5AA6E316001D24000AC50C = {
 			isa = PBXGroup;
 			children = (
-				FC5AA6F416001D24000AC50C /* airport-cli */,
+				FC15232A175EC5B800D3EED4 /* airport-cli */,
 				FC5AA6F116001D24000AC50C /* Frameworks */,
 				FC5AA6EF16001D24000AC50C /* Products */,
 			);
@@ -72,24 +82,6 @@
 				FC5AA6F216001D24000AC50C /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FC5AA6F416001D24000AC50C /* airport-cli */ = {
-			isa = PBXGroup;
-			children = (
-				FC5AA6F516001D24000AC50C /* main.m */,
-				FC5AA6F916001D24000AC50C /* airport_cli.1 */,
-				FC5AA6F716001D24000AC50C /* Supporting Files */,
-			);
-			path = "airport-cli";
-			sourceTree = "<group>";
-		};
-		FC5AA6F716001D24000AC50C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FC5AA6F816001D24000AC50C /* airport-cli-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,7 +195,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "airport-cli/airport-cli-Prefix.pch";
+				GCC_PREFIX_HEADER = "airport-cli-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -212,7 +204,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "airport-cli/airport-cli-Prefix.pch";
+				GCC_PREFIX_HEADER = "airport-cli-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
